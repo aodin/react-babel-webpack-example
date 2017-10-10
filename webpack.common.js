@@ -6,6 +6,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 
 
+// Common config is shared between all environments
 module.exports = {
   entry: {
     app: './src/index.js',
