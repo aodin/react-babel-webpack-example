@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import Clock from './clock';
 import Toggle from './toggle';
 
+import './_custom.scss';
 import './styles.scss';
 
 
@@ -17,7 +18,7 @@ class User {
   }
 }
 
-let user = new User({firstName: 'Aaron', lastName: 'Ellis'});
+let user = new User({firstName: 'Test', lastName: 'User'});
 
 class Welcome extends React.Component {
   render() {

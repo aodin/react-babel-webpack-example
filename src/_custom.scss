@@ -2,4 +2,7 @@
 @import "~bootstrap/scss/variables";
 @import "~bootstrap/scss/mixins";
 
+/* Override bootstrap variable here */
 $body-bg: $gray-100;
+
+@import "~bootstrap/scss/bootstrap";
