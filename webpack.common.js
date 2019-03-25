@@ -11,7 +11,7 @@ const webpack = require('webpack');
 // Common config is shared between all environments
 module.exports = {
   entry: {
-    app: './src/index.js',
+    app: path.resolve(__dirname, 'src', 'index.js')
   },
   optimization: {
     minimizer: [
@@ -24,17 +24,25 @@ module.exports = {
     ],
     splitChunks: {
       chunks: 'all',
-      name: 'lib'
+      name: 'lib',
+      cacheGroups: {
+        styles: {
+          name: 'styles',
+          test: /\.css$/,
+          chunks: 'all',
+          enforce: true
+        }
+      }
     }
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: '[name].[contenthash:12].css'
+      filename: '[name].[contenthash].css'
     }),
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       title: 'Example HTML',
-      template: './src/index.html'
+      template: path.resolve(__dirname, 'src', 'index.html')
     })
   ],
   output: {
@@ -56,7 +64,7 @@ module.exports = {
           {
             loader: 'postcss-loader',
             options: {
-              plugins: function () {
+              plugins: function() {
                 return [
                   require('autoprefixer')
                 ];
