@@ -1,4 +1,4 @@
-React-test
+react-babel-webpack-example
 ====
 
 Example React, Babel, and Webpack project.
