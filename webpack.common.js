@@ -12,7 +12,10 @@ module.exports = {
     app: './src/index.js',
   },
   optimization: {
-    splitChunks: {}
+    splitChunks: {
+      chunks: 'all',
+      name: 'lib'
+    }
   },
   plugins: [
     new MiniCssExtractPlugin({
