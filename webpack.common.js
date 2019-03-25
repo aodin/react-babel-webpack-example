@@ -1,8 +1,8 @@
 const path = require('path');
 
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const webpack = require('webpack');
 
 
@@ -11,20 +11,17 @@ module.exports = {
   entry: {
     app: './src/index.js',
   },
+  optimization: {
+    splitChunks: {}
+  },
   plugins: [
-    new ExtractTextPlugin({
-      filename: '[name].[contenthash:12].css',
+    new MiniCssExtractPlugin({
+      filename: '[name].[contenthash:12].css'
     }),
-    new CleanWebpackPlugin(['dist']),
+    new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       title: 'Example HTML',
       template: './src/index.html'
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'lib',
-      minChunks: function(module, count) {
-        return module.context && module.context.indexOf('node_modules') !== -1;
-      }
     })
   ],
   output: {
@@ -35,10 +32,13 @@ module.exports = {
     rules: [
       {
         test: /\.css$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: 'css-loader'
-        })
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {}
+          },
+          'css-loader'
+        ]
       },
       {
         test: /\.js$/,
@@ -47,7 +47,7 @@ module.exports = {
           {
             loader: 'babel-loader',
             options: {
-              presets: ['env', 'react']
+              presets: ['@babel/preset-env', '@babel/preset-react']
             },
           }
         ]
