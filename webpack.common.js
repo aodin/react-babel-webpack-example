@@ -2,7 +2,9 @@ const path = require('path');
 
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const webpack = require('webpack');
 
 
@@ -12,6 +14,14 @@ module.exports = {
     app: './src/index.js',
   },
   optimization: {
+    minimizer: [
+      new UglifyJsPlugin({
+        cache: true,
+        parallel: true,
+        sourceMap: true
+      }),
+      new OptimizeCSSAssetsPlugin({})
+    ],
     splitChunks: {
       chunks: 'all',
       name: 'lib'
@@ -35,22 +45,28 @@ module.exports = {
     rules: [
       {
         test: /\.(scss)$/,
-        use: [{
-          loader: 'style-loader',
-        }, {
-          loader: 'css-loader',
-        }, {
-          loader: 'postcss-loader',
-          options: {
-            plugins: function () {
-              return [
-                require('autoprefixer')
-              ];
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {}
+          },
+          {
+            loader: 'css-loader',
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: function () {
+                return [
+                  require('autoprefixer')
+                ];
+              }
             }
+          },
+          {
+            loader: 'sass-loader'
           }
-        }, {
-          loader: 'sass-loader'
-        }]
+        ]
       },
       {
         test: /\.css$/,
